@@ -17,7 +17,7 @@ export default async function changeStudentsTeam(req: Request, res: Response): P
             throw new Error("Email inválido")
         }
 
-        const validTeam = await connection('labenu_sys_teams').where("name", "like", `${team}`)
+        const validTeam = await connection('labenu_sys_teams').where("name", "like", `${team}%`)
 
         if (!validTeam.length) {
             throw new Error('Turma inválida')

@@ -14,9 +14,10 @@ export default async function createStudent(req: Request, res: Response): Promis
             throw new Error('Por favor insira ao menos um hobby')
         }
 
-        const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}`)
+        const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}%`)
 
         if (!teamId.length) {
+            errorCode = 404
             throw new Error('Turma inválida')
         }
         

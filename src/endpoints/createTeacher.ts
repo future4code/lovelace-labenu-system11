@@ -3,11 +3,22 @@ import { connection } from '../data/connection'
 
 export default async function createTeacher(req: Request, res: Response): Promise<any> {
     let errorCode = 400
-    let { name, email, birthDate, team, specialty } = req.body
+    let { name, email, birthDate, team, specialties } = req.body
 
     try {
-        if (!name || !email || !birthDate || !team || !specialty) {
-            throw new Error('Por favor preencha todos os campos')
+        if (!name || !email || !birthDate || !team) {
+            throw new Error('Por favor cheque os campos')
+        }
+
+        if (!specialties.length) {
+            throw new Error('Por favor insira ao menos uma especialidade')
+        }
+        
+        const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}%`)
+
+        if (!teamId.length) {
+            errorCode = 404
+            throw new Error('Turma inválida')
         }
 
         function formatDate(date: string): string {
@@ -18,38 +29,43 @@ export default async function createTeacher(req: Request, res: Response): Promis
         }
 
         const formattedBirthDate: string = formatDate(birthDate)
+
         const id: string = Date.now().toString().slice(4)
 
-        const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}`)
+        let teacherSpecialties = []
 
-        if (specialty === 'back-end') {
-            specialty = 'back_end'
-        } else if (specialty === 'front-end') {
-            specialty = 'front_end'
-        } else {
-            throw new Error('Especialidade deve ser ou "front-end" ou "back-end"')
+        const allSpecialties = await connection('labenu_sys_specialties')
+
+        const allSpecialtiesNames = allSpecialties.map(specialty => {
+            return specialty.name
+        })
+
+        if (!specialties.every((elem: string) => allSpecialtiesNames.includes(elem))) {
+            throw new Error('Alguma das especialidades é inválida')
         }
 
-        const specialtyId = await connection('labenu_sys_specialties').where('name', '=', `${specialty}`)
-
-        if (teamId.length) {
-            await connection('labenu_sys_teachers').insert({
+        await connection('labenu_sys_teachers').insert({
                 id: id,
                 name,
                 email,
                 birth_date: formattedBirthDate,
                 team_id: teamId[0].id
-            })
+        })
 
+        for (let object of allSpecialties) {
+            if (specialties.some((specialty: string) => specialty === object.name)) {
+                teacherSpecialties.push(object.id)
+            }
+        }
+
+        for (let specialtyId of teacherSpecialties) {
             await connection('labenu_sys_teachers_specialties').insert({
                 teacher_id: id,
-                specialty_id: specialtyId[0].id
+                specialty_id: specialtyId
             })
-
-            res.status(200).send('Professor(a) inserido com sucesso')
-        } else {
-            throw new Error('Turma inválida')
         }
+
+        res.status(200).send('Professor(a) inserido com sucesso')
 
     } catch (error: any) {
         res.status(errorCode).send(error.sqlMessage || error.message)
