@@ -22,5 +22,4 @@ export default async function getStudentAgeById(req: Request, res: Response) {
     } catch (error: any) {
         res.status(errorCode).send(error.sqlMessage || error.message)
     }
-    
 }
