@@ -1,21 +1,14 @@
-import express, { Express } from "express"
-import cors from "cors"
-import { AddressInfo } from "net"
+import app  from "./app"
+import changeStudentsTeam from "./endpoints/changeStudentsTeam"
+import changeTeachersTeam from "./endpoints/changeTeachersTeam"
+import createStudent from "./endpoints/createStudent"
+import createTeacher from "./endpoints/createTeacher"
+import createTeam from "./endpoints/createTeam"
+import getStudentAgeById from "./endpoints/getStudentAgeById"
 
-const app: Express = express()
-
-app.use(express.json())
-app.use(cors())
-
-
-
-
-
-const server = app.listen(process.env.PORT || 3003, () => {
-    if (server) {
-       const address = server.address() as AddressInfo;
-       console.log(`Server is running in http://localhost:${address.port}`);
-    } else {
-       console.error(`Failure upon starting server.`);
-    }
-})
+app.post('/teams', createTeam)
+app.post('/teachers', createTeacher)
+app.put('/teachers', changeTeachersTeam)
+app.post('/students', createStudent)
+app.put('/students', changeStudentsTeam)
+app.get('/students/:id', getStudentAgeById)
