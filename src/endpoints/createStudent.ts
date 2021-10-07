@@ -14,6 +14,12 @@ export default async function createStudent(req: Request, res: Response): Promis
             throw new Error('Por favor insira ao menos um hobby')
         }
 
+        const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}`)
+
+        if (!teamId.length) {
+            throw new Error('Turma inválida')
+        }
+        
         function formatDate(date: string): string {
             const day = date.split("/")[0];
             const month = date.split("/")[1];
@@ -22,9 +28,8 @@ export default async function createStudent(req: Request, res: Response): Promis
         }
 
         const formattedBirthDate: string = formatDate(birthDate)
-        const id: string = Date.now().toString().slice(4)
 
-        const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}`)
+        const id: string = Date.now().toString().slice(4)
 
         const existingHobbies = await connection('labenu_sys_hobbies').select("name")
 
@@ -36,11 +41,6 @@ export default async function createStudent(req: Request, res: Response): Promis
                 name
             })
         }
-
-        if (!teamId.length) {
-            throw new Error('Turma inválida')
-        }
-
         await connection('labenu_sys_students').insert({
             id,
             name,
