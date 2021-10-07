@@ -18,7 +18,7 @@ export default async function createTeacher(req: Request, res: Response): Promis
         }
 
         const formattedBirthDate: string = formatDate(birthDate)
-        const timestamp: string = Date.now().toString().slice(4)
+        const id: string = Date.now().toString().slice(4)
 
         const teamId = await connection('labenu_sys_teams').where('name', 'like', `${team}`)
 
@@ -34,7 +34,7 @@ export default async function createTeacher(req: Request, res: Response): Promis
 
         if (teamId.length) {
             await connection('labenu_sys_teachers').insert({
-                id: timestamp,
+                id: id,
                 name,
                 email,
                 birth_date: formattedBirthDate,
@@ -42,7 +42,7 @@ export default async function createTeacher(req: Request, res: Response): Promis
             })
 
             await connection('labenu_sys_teachers_specialties').insert({
-                teacher_id: timestamp,
+                teacher_id: id,
                 specialty_id: specialtyId[0].id
             })
 
