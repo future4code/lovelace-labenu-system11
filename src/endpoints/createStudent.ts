@@ -10,6 +10,10 @@ export default async function createStudent(req: Request, res: Response): Promis
             throw new Error('Por favor cheque os campos')
         }
 
+        if (!hobbies.length) {
+            throw new Error('Por favor insira ao menos um hobby')
+        }
+
         function formatDate(date: string): string {
             const day = date.split("/")[0];
             const month = date.split("/")[1];
