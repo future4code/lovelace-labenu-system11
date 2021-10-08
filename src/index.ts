@@ -5,10 +5,12 @@ import createStudent from "./endpoints/createStudent"
 import createTeacher from "./endpoints/createTeacher"
 import createTeam from "./endpoints/createTeam"
 import getStudentAgeById from "./endpoints/getStudentAgeById"
+import getStudentsByTeam from "./endpoints/getStudentsByTeam"
 
 app.post('/teams', createTeam)
 app.post('/teachers', createTeacher)
 app.put('/teachers', changeTeachersTeam)
 app.post('/students', createStudent)
 app.put('/students', changeStudentsTeam)
+app.get('/students/', getStudentsByTeam)
 app.get('/students/:id', getStudentAgeById)

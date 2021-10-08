@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { connection } from '../data/connection'
 
-export default async function getStudentAgeById(req: Request, res: Response) {
+export default async function getStudentAgeById(req: Request, res: Response): Promise<any> {
     let errorCode: number = 400
     const id: string = req.params.id
 

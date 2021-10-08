@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { connection } from '../data/connection'
 
 export default async function createStudent(req: Request, res: Response): Promise<any> {
-    let errorCode = 400
+    let errorCode: number = 400
     const { name, email, birthDate, team, hobbies } = req.body
 
     try {
@@ -51,7 +51,7 @@ export default async function createStudent(req: Request, res: Response): Promis
         })
 
         for (let hobby of hobbies) {
-            if (!existingHobbies.some(object => object.name === hobby)) {
+            if (!existingHobbies.some(object => object.name.toLowerCase() === hobby.toLowerCase())) {
                 const timeStamp: string = Date.now().toString().slice(4)
                 const id: number = Number(timeStamp) + Math.floor(Math.random() * 100)
                 insertHobby(id, hobby)
@@ -61,7 +61,7 @@ export default async function createStudent(req: Request, res: Response): Promis
         const allHobbies = await connection('labenu_sys_hobbies')
 
         for (let object of allHobbies) {
-            if (hobbies.some((hobby: string) => hobby === object.name)) {
+            if (hobbies.some((hobby: string) => hobby.toLowerCase() === object.name.toLowerCase())) {
                 studentHobbiesIds.push(object.id)
             }
         }
