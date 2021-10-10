@@ -22,6 +22,10 @@ As funcionalidades básicas são:
 
 &nbsp;
 
+**BASE URL:** https://labenu-system-caique.herokuapp.com/
+
+&nbsp;
+
 → Criar estudante;
 
 **POST**
