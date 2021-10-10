@@ -41,7 +41,7 @@ export default async function createTeacher(req: Request, res: Response): Promis
         })
 
         if (!specialties.every((elem: string) => allSpecialtiesNames.includes(elem))) {
-            throw new Error('Alguma das especialidades é inválida')
+            throw new Error('As especialidades devem ser escolhidas entre as seguintes: React, Redux, CSS, Testes, Typescript, Programação Orientada a Objetos e Backend.')
         }
 
         await connection('labenu_sys_teachers').insert({
