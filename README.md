@@ -17,8 +17,22 @@ Ele deve possuir, ao menos, as 3 entidades importantes:
     Toda turma é composta das seguintes características: id, nome, data de início, data de término, lista de professores responsáveis, uma lista de alunos e módulo atual em que a turma está.
 
     O módulo pode assumir os valores de 1 a 7 ou `undefined`, indicando que as aulas dessa turma ainda não começaram. Para esse exercício, vamos considerar que existam dois tipos de turma: integral ou noturna. Há uma restrição para o nome das turmas noturnas: tem que terminar com `-na-night`.
+    
+### Integrantes
 
-As funcionalidades básicas são:
+- Caíque Souto Lima
+- Eunice Jesus Souza
+
+### Tecnologias utilizadas
+
+- NodetJS
+- Express
+- Knex
+- MySQL
+- Typescript
+- JSON
+
+### As funcionalidades básicas são:
 
 &nbsp;
 
