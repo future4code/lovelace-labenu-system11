@@ -176,7 +176,7 @@ Response:
                 "name":"Cruz-na-night",
                 "beginDate":"11/10/2021",
                 "endDate":"25/04/2022",
-                "modulo":0
+                "modulo":2
             }
         ]
     }
